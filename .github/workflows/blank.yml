@@ -15,10 +15,15 @@ def main():
       print("YOU HAVE TO FIND THE KILLER CLUE SO WE CAN FIND THE KILLER")
       locations = {
           "dining_hall": "The grand dining hall seems undisturbed. Find another area.",
-          "kitchen": "Very good detective! You found the first clue: knife prints. Now go find two more clues.",
-          "bedroom": "Good! You found footprints of the killer. But whose are they?",
+          "kitchen": "You found a suspicious area in the kitchen.",
+          "bedroom": "You found a suspicious area in the bedroom.",
           "garage": "The garage is empty. Find another area to search for clues.",
-          "store_room": "Go ahead, you've found a clue in a dusty box!"
+          "store_room": "You found a suspicious area in the store room."
+      }
+      clues = {
+          "kitchen": "knife prints",
+          "bedroom": "footprints",
+          "store_room": "fingerprints"
       }
       found_clues = []
       attempts = 5  # Adjust difficulty by changing this value (attempts to find clues)
@@ -30,8 +35,8 @@ def main():
               print("Invalid location. Please choose from the available options.")
               continue
           print(locations[current_location])
-          if current_location in ("kitchen", "bedroom", "store_room") and current_location not in found_clues:
-              found_clues.append(current_location)
+          if current_location in clues and clues[current_location] not in found_clues:
+              found_clues.append(clues[current_location])
           attempts -= 1  # Decrement attempts after each location choice
 
       if attempts == 0:
@@ -41,37 +46,93 @@ def main():
       # Combine clues and identify culprit
       combine_clues = input("Do you want to combine the clues together? (yes/no): ").lower()
       if combine_clues == "yes":
-          culprits = {"knife prints": ["Mr. Malak", "Mrs. Heera"], "footprints": ["Miss Juhi"]}
-          # Option 1: Check for clue existence before accessing
-          suspects = set()
+          clue_info = {
+              "knife prints": "This clue suggests the killer was in the kitchen.",
+              "footprints": "This clue suggests the killer was in the bedroom.",
+              "fingerprints": "This clue suggests the killer was in the store room."
+          }
+          clue_description = ""
           for clue in found_clues:
-              if clue in culprits:
-                  suspects.update(culprits[clue])
+              clue_description += clue_info[clue] + " "
 
-          # Option 2: Use get method with default value
-          # suspects = set.union(*[culprits.get(clue, set()) for clue in found_clues])
-
-          # Display the suspects based on the clues found
-          print("Based on the clues, the suspects are:", ", ".join(suspects))
+          print("Based on the clues, the description of the crime scene is:", clue_description)
           attempts = 3  # Adjust difficulty by changing this value (attempts to identify culprit)
           while attempts > 0:
-              culprit = input(f"Who do you think is the killer? (Choose from suspects, attempts remaining: {attempts}): ")
-              if culprit in suspects and ("Mrs. Heera" in culprit.lower()):
-                  print("Congratulations detective! You found the killer.")
+              culprit_guess = input(f"What do you think happened at the crime scene? (attempts remaining: {attempts}): ")
+              if culprit_guess.lower() in clue_description.lower():
+                  print("Congratulations detective! You solved the crime.")
                   return
               else:
-                  print("No, this is not the killer. Try again!")
+                  print("No, that's not what happened at the crime scene. Try again!")
                   attempts -= 1  # Decrement attempts after each guess
                   if attempts == 0:
-                      print("You ran out of attempts to identify the culprit. Game over!")
+                      print("You ran out of attempts to solve the crime. Game over!")
                       return
-                  print("Suspects:", ", ".join(suspects))
       else:
           print("Alright, keep searching for more clues.")
-
-  # Find the Stolen Car (Game 2 - Replace with your desired implementation)
+          
+          
+  # Find the Stolen Car (Game 2)
   elif game_choice == "2":
-      print("This feature is under development. Coming soon!")
+      print("FIND THE STOLEN CAR")
+      locations = {
+          "parking_lot": "You found a suspicious person lurking around the parking lot.",
+          "gas_station": "You found a security camera that caught a glimpse of the stolen car.",
+          "highway": "You found a piece of torn fabric that might be from the stolen car.",
+          "city_center": "You found a witness who saw the stolen car driving by."
+      }
+      clues = {
+          "parking_lot": "suspicious person",
+          "gas_station": "security camera",
+          "highway": "torn fabric",
+          "city_center": "witness"
+      }
+      found_clues = []
+      attempts = 5  # Adjust difficulty by changing this value (attempts to find clues)
+
+      # Look for clues
+      while len(found_clues) < 4 and attempts > 0:
+          current_location = input(f"Choose a location (attempts remaining: {attempts}): (parking lot, gas station, highway, city center): ").lower()
+          if current_location not in locations:
+              print("Invalid location. Please choose from the available options.")
+              continue
+          print(locations[current_location])
+          if current_location in clues and clues[current_location] not in found_clues:
+              found_clues.append(clues[current_location])
+          attempts -= 1  # Decrement attempts after each location choice
+
+      if attempts == 0:
+          print("You ran out of attempts to find clues. Game over!")
+          return
+
+      # Combine clues and identify stolen car
+      combine_clues = input("Do you want to combine the clues together? (yes/no): ").lower()
+      if combine_clues == "yes":
+          stolen_car_info = {
+              "suspicious person": "The suspicious person was seen driving a black sedan.",
+              "security camera": "The security camera caught a glimpse of a black sedan with a broken tail light.",
+              "torn fabric": "The torn fabric matches the interior of a black sedan.",
+              "witness": "The witness saw a black sedan driving away from the scene."
+          }
+          stolen_car_description = ""
+          for clue in found_clues:
+              stolen_car_description += stolen_car_info[clue] + " "
+
+          print("Based on the clues, the stolen car is:", stolen_car_description)
+          attempts = 3  # Adjust difficulty by changing this value (attempts to identify stolen car)
+          while attempts > 0:
+              stolen_car_guess = input(f"What do you think is the description of the stolen car? (attempts remaining: {attempts}): ")
+              if stolen_car_guess.lower() in stolen_car_description.lower():
+                  print("Congratulations detective! You found the stolen car.")
+                  return
+              else:
+                  print("No, that's not the description of the stolen car. Try again!")
+                  attempts -= 1  # Decrement attempts after each guess
+                  if attempts == 0:
+                      print("You ran out of attempts to identify the stolen car. Game over!")
+                      return
+      else:
+          print("Alright, keep searching for more clues.")
 
   print(f"Thanks for playing, {character_name}!")
 
